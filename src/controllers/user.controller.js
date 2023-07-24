@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 
-//? Find all users 
+//? Find all users (✓)
 exports.findAllUser = async (req, res) => {
     try {
         const users = await User.findAll({
@@ -25,7 +25,7 @@ exports.findAllUser = async (req, res) => {
     }
 }
 
-//? Find One user 
+//? Find One user (✓)
 
 exports.findOneUser = async (req, res) => {
     try {
@@ -59,7 +59,7 @@ exports.findOneUser = async (req, res) => {
     }
 }
 
-//? Create user (od)
+//? Create user (✓)
 exports.createUser = async (req, res) => {
     try {
         const { name, email, password,role } = req.body
@@ -81,12 +81,12 @@ exports.createUser = async (req, res) => {
 
 }
 
-//? Update user 
+//? Update user (✓)
 
 exports.updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { fullname } = req.body;
+        const { name, email } = req.body;
 
         const user = await User.findOne({
             where: {
@@ -103,7 +103,7 @@ exports.updateUser = async (req, res) => {
 
         }
 
-        await user.update({ fullname })
+        await user.update({ name, email })
 
         return res.status(200).json({
             status: 'success',
@@ -122,7 +122,8 @@ exports.updateUser = async (req, res) => {
     }
 }
 
-//? Delete user ()
+//? Delete user (✓)
+
 
 exports.deleteUser = async (req, res) => {
     try {

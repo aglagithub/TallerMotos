@@ -1,11 +1,11 @@
 const Repair = require('../models/repair.model');
 
-//? Find all repairs ()
+//? Find all repairs (✓)
 exports.findAllRepair = async (req, res) => {
     try {
         const repairs = await Repair.findAll({
             where: {
-                status: true,
+                status: "pending",
             }
         });
         return res.status(200).json({
@@ -25,7 +25,7 @@ exports.findAllRepair = async (req, res) => {
     }
 }
 
-//? Find One repair ()
+//? Find One repair (✓)
 
 exports.findOneRepair = async (req, res) => {
     try {
@@ -33,7 +33,7 @@ exports.findOneRepair = async (req, res) => {
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+                status: "pending",
             },
         });
 
@@ -59,11 +59,11 @@ exports.findOneRepair = async (req, res) => {
     }
 }
 
-//? Create repair ()
+//? Create repair (✓)
 exports.createRepair = async (req, res) => {
     try {
-        const { fullname, email, password } = req.body
-        const repair = await Repair.create({ fullname, email, password })
+        const { date, userId } = req.body
+        const repair = await Repair.create({ date, userId })
         return res.status(201).json({
             status: 'success',
             repair,
@@ -81,17 +81,17 @@ exports.createRepair = async (req, res) => {
 
 }
 
-//? Update Repair ()
+//? Update Repair (✓)
 
 exports.updateRepair = async (req, res) => {
     try {
         const { id } = req.params;
-        const { fullname } = req.body;
+    
 
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+
             }
         })
 
@@ -103,7 +103,7 @@ exports.updateRepair = async (req, res) => {
 
         }
 
-        await repair.update({ fullname })
+        await repair.update({ status : "completed" })
 
         return res.status(200).json({
             status: 'success',
@@ -131,7 +131,7 @@ exports.deleteRepair = async (req, res) => {
         const repair = await Repair.findOne({
             where: {
                 id,
-                status: true,
+                
             }
         })
 
@@ -142,11 +142,11 @@ exports.deleteRepair = async (req, res) => {
             })
         }
 
-        await repair.update({ status: false });
+        await repair.update({ status: "cancelled" });
 
         return res.status(200).json({
             status: 'success',
-            message: 'Repair deleted succesfully',
+            message: `Repair id=${id} deleted succesfully`,
 
         })
 
